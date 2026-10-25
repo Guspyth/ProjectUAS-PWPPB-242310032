@@ -59,15 +59,16 @@ export default function TicketDetails() {
     : FALLBACK_CONCERTS.find((c) => c.id === parseInt(id || "1")) || FALLBACK_CONCERTS[0];
 
   // Calculate total tickets bought by user for this concert event
-  const boughtTicketsForEvent = tickets
-  ? tickets
-      .filter(
-        (t) =>
-          t.user_id === user.id &&
-          t.event_id === concert.id
-      )
-      .reduce((sum, current) => sum + current.quantity, 0)
-  : 0;
+  // `user` bernilai null jika belum login, dan id user di backend bernama `user_id`.
+  const boughtTicketsForEvent = user && tickets
+    ? tickets
+        .filter(
+          (t) =>
+            t.user_id === user.user_id &&
+            t.event_id === concert.id
+        )
+        .reduce((sum, current) => sum + (current.quantity || 0), 0)
+    : 0;
 
   const isRealEvent = !!concertObj;
   const [selectedTier, setSelectedTier] = useState("");

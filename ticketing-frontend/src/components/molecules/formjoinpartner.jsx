@@ -68,19 +68,19 @@ const Formjoinpartner = ({ isOpen, onClose }) => {
                 </h2>
 
                 <form className='flex flex-col p-10 gap-2' onSubmit={handleSubmit}>                    
-                    <label>Name of Organization</label>
+                    <label className='text-white'>Name of Organization</label>
                     <input type='text' className='bg-[#fafafa] rounded-lg text-[#031F40] font-medium p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400' name='username' value={formData.username} onChange={handleChange} required/>                    
 
-                    <label>Email</label>
+                    <label className='text-white'>Email</label>
                     <input type='email' className='bg-[#fafafa] rounded-lg text-[#031F40] font-medium p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400' name='email' value={formData.email} onChange={handleChange} required/>
 
-                    <label>Number</label>
+                    <label className='text-white'>Number</label>
                     <input type='number' className='bg-[#fafafa] rounded-lg text-[#031F40] font-medium p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400' name='number' value={formData.number} onChange={handleChange} required/>
 
-                    <label>Social Media</label>
+                    <label className='text-white'>Social Media</label>
                     <input type='text' className='bg-[#fafafa] rounded-lg text-[#031F40] font-medium p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400' name='socialMedia' value={formData.socialMedia} onChange={handleChange}/>
 
-                    <label>CV</label>
+                    <label className='text-white'>CV</label>
                     <input type='file' accept='.pdf,.doc,.docx' className='bg-[#fafafa] rounded-lg text-[#031F40] font-medium p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400' onChange={handleFileChange} required/>
 
                     {error && <p className='text-red-400 text-sm font-medium'>{error}</p>}

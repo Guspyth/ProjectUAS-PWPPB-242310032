@@ -1,6 +1,7 @@
 'use client';
 import Organizermenu from '@/components/molecules/organizermenu';
 import React from 'react';
+import axios from 'axios';
 import Searchbar from '@/components/atoms/searchbar';
 import Filter from '@/components/atoms/filter';
 import { useState, useEffect } from 'react';
@@ -17,19 +18,13 @@ const Orders = () => {
 
         try {
 
-            const token = localStorage.getItem("token");
-
             const res = await axios.get(
-                "http://localhost:3001/api/transactions/organizer",
-                {
-                    headers:{
-                        Authorization:`Bearer ${token}`
-                    }
-                }
+                "http://localhost:3001/api/dashboard/organizer/organizer",
+                { withCredentials: true }
             );
 
-            setOrders(res.data.data);
-            setFilteredOrders(res.data.data);
+            setOrders(res.data.data || []);
+            setFilteredOrders(res.data.data || []);
 
             } catch(err){
 

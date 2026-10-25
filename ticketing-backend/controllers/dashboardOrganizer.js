@@ -133,7 +133,9 @@ const getOrganizerTransactions = async (req, res) => {
             ]
         });
 
-        const result = transactions.map(trx => ({
+        const result = transactions
+            .filter(trx => trx.user && trx.ticket && trx.ticket.event)
+            .map(trx => ({
             transaction_id: trx.transaction_id,
             username: trx.user.username,
             amount: trx.total_prices,

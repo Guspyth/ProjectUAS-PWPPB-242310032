@@ -20,8 +20,8 @@ const Reports = () => {
                     </div>
                 </div>
                 <div className='grid grid-cols-2 gap-2 md:gap-4'>
-                    <Button text='Organizer Report' className={`${activeTab === 'eo' ? 'bg-[#031F40] shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('eo')}/>
-                    <Button text='User Report' className={`${activeTab === 'user' ? 'bg-[#031F40] shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('user')}/>
+                    <Button text='Organizer Report' className={`${activeTab === 'eo' ? 'bg-[#031F40] text-white shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('eo')}/>
+                    <Button text='User Report' className={`${activeTab === 'user' ? 'bg-[#031F40] text-white shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('user')}/>
                 </div>
             </div>
         </div>

@@ -20,15 +20,9 @@ const Dashboard = () => {
     useEffect(() => {
     const fetchDashboard = async () => {
         try {
-            const token = localStorage.getItem("token");
-
             const res = await axios.get(
-                "http://localhost:3001/api/dashboard/eo",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+                "http://localhost:3001/api/dashboard/organizer",
+                { withCredentials: true }
             );
 
             if (res.data.success) {

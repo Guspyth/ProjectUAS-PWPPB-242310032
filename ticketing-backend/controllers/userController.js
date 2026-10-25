@@ -62,7 +62,10 @@ const approveOrganizer = async (req, res) => {
         user.status = 'active';
         await user.save();
 
-        // Kirim email berisi password setelah admin approve
+        // Kirim email berisi password setelah admin approve.
+        // Kegagalan email tidak boleh membatalkan approve (akun sudah aktif di atas).
+        let emailSent = true;
+        try {
         await transporter.sendMail({
             from: `"TickeTing App" <${process.env.EMAIL_USER}>`,
             to: user.email,
@@ -80,8 +83,22 @@ const approveOrganizer = async (req, res) => {
                 <p>Terima kasih telah bergabung bersama TickeTing!</p>
             `
         });
+        } catch (mailError) {
+            emailSent = false;
+            console.error('Gagal mengirim email approve:', mailError.message);
+            if (process.env.NODE_ENV !== 'production') {
+                console.log(`[DEV] Password untuk ${user.username} (${user.email}): ${generatedPassword}`);
+            }
+        }
 
-        return res.status(200).json({ message: 'Organizer berhasil disetujui dan email telah dikirim.' });
+        if (!emailSent) {
+            return res.status(200).json({
+                emailSent: false,
+                message: 'Organizer disetujui, tetapi email GAGAL terkirim. Periksa EMAIL_USER dan EMAIL_PASS di file .env backend. Password dapat dilihat di terminal backend (mode development).'
+            });
+        }
+
+        return res.status(200).json({ emailSent: true, message: 'Organizer berhasil disetujui dan email telah dikirim.' });
     } catch (error) {
         console.error('Error approving organizer:', error);
         return res.status(500).json({ message: 'Gagal menyetujui organizer.' });

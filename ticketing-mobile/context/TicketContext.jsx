@@ -114,6 +114,8 @@ export function TicketProvider({ children }) {
       if (response && response.success && response.data.length > 0) {
         const mapped = response.data.map((tx) => ({
           id: tx.transaction_id.toString(),
+          user_id: tx.user_id,
+          event_id: tx.ticket?.event_id ?? tx.ticket?.event?.event_id,
           title: tx.ticket?.event?.event_title || "Konser",
           date: tx.ticket?.event?.event_date
             ? new Date(tx.ticket.event.event_date).toLocaleDateString("id-ID", {

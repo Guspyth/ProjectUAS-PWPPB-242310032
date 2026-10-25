@@ -34,16 +34,16 @@ const ListPending = () => {
         // action: 'approve' | 'reject'
         try {
             setProcessing(id);
-            await axios.patch(`http://localhost:3001/api/users/${id}/${action}`);
-            alert(action === 'approve'
-                ? 'Organizer berhasil disetujui! Email telah dikirim.'
-                : 'Organizer berhasil ditolak.');
-            fetchPending(); // refresh list
+            const res = await axios.patch(`http://localhost:3001/api/users/${id}/${action}`);
+            alert(res.data?.message || (action === 'approve'
+                ? 'Organizer berhasil disetujui!'
+                : 'Organizer berhasil ditolak.'));
         } catch (err) {
             console.error(`Gagal ${action}:`, err);
             alert(err.response?.data?.message || `Gagal melakukan ${action}.`);
         } finally {
             setProcessing(null);
+            fetchPending(); // selalu refresh list agar tidak menampilkan data basi
         }
     };
 

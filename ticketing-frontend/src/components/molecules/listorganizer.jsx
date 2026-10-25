@@ -133,7 +133,7 @@ const ListOrganizer = () => {
 
             <div className='flex flex-row justify-center mt-4 gap-4 md:justify-end'>
                 <Button text='Active' className='bg-[#30E630]' onClick={() => handleUpdateStatus('active')} disabled={updating || !selectedId}/>
-                <Button text='Suspend' className='bg-[#031F40]' onClick={() => handleUpdateStatus('suspend')} disabled={updating || !selectedId}/>
+                <Button text='Suspend' className='bg-[#031F40] text-white' onClick={() => handleUpdateStatus('suspend')} disabled={updating || !selectedId}/>
                 <Button text='Banned' className='bg-[#DA4545]' onClick={() => handleUpdateStatus('banned')} disabled={updating || !selectedId}/>
             </div>
         </div>

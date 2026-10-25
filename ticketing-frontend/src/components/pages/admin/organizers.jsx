@@ -19,8 +19,8 @@ const Organizers = () => {
             <div className='p-4 md:p-8'>
                 <div className='flex flex-col md:flex-row md:items-center gap-4 w-full'>                    
                     <div className='grid grid-cols-2 gap-4'>
-                        <Button text='Organizer List' className={`${activeTab === 'list' ? 'bg-[#031F40] shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('list')}/>
-                        <Button text='Pending Approval' className={`${activeTab === 'pending' ? 'bg-[#031F40] shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('pending')}/>
+                        <Button text='Organizer List' className={`${activeTab === 'list' ? 'bg-[#031F40] text-white shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('list')}/>
+                        <Button text='Pending Approval' className={`${activeTab === 'pending' ? 'bg-[#031F40] text-white shadow-xl' : 'bg-[#fafafa] hover:bg-slate-100 text-[#031F40] shadow-xl'}`} onClick={() => setActiveTab('pending')}/>
                     </div>
 
                     <div className='flex flex-1 items-center gap-2 md:gap-4 w-full'>

@@ -23,70 +23,71 @@ export default function AuthPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  // Pesan ditampilkan di layar (bukan alert) supaya tetap terlihat di browser
+  // yang memblokir alert(), misalnya browser bawaan VS Code.
+  const [message, setMessage] = useState(null); // { type: "error" | "success", text }
+
+  const isNetworkError = (err) =>
+    /Network request failed|Failed to fetch|tidak merespons/i.test(err?.message || "");
+
+  const toggleMode = () => {
+    setIsLogin(!isLogin);
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setMessage(null);
+  };
 
   const handleAuth = async () => {
+    setMessage(null);
+
     if (!username || !password) {
-      alert("Username dan password wajib diisi.");
+      setMessage({ type: "error", text: "Username dan password wajib diisi." });
+      return;
+    }
+    if (!isLogin && !email) {
+      setMessage({ type: "error", text: "Email wajib diisi untuk pendaftaran." });
       return;
     }
 
-    if (isLogin) {
-      try {
+    setLoading(true);
+    try {
+      if (isLogin) {
         const response = await apiRequest("/auth/login", {
           method: "POST",
-          body: { identifier: username, password: password }
+          body: { identifier: username, password: password },
         });
-        
-        // Save user details to global context
+
+        // Simpan data user ke context global
         if (response && response.data) {
           setUser(response.data);
         }
-        
-        alert(response.message || "Login berhasil!");
         router.replace("/(tabs)/home");
-      } catch (err) {
-
-        if (err.message && err.message.includes("Network request failed")) {
-          alert(
-            "Gagal terhubung ke backend server!\n\n" +
-            "1. Pastikan server backend Anda aktif di port 3001.\n" +
-            "2. Jika Anda menggunakan HP fisik (Expo Go), Anda harus mengganti 'localhost' di constants/Api.js dengan IP lokal komputer Anda (misal: 192.168.x.x)."
-          );
-        } else {
-          alert(err.message || "Gagal login. Periksa kembali kredensial Anda.");
-        }
-      }
-    } else {
-      if (!email) {
-        alert("Email wajib diisi untuk pendaftaran.");
-        return;
-      }
-      
-      try {
+      } else {
         const response = await apiRequest("/users/register", {
           method: "POST",
-          body: { username, email, password }
+          body: { username, email, password },
         });
 
-        alert(response.message || "Pendaftaran berhasil! Silakan login.");
         setIsLogin(true);
-      } catch (err) {
-        if (err.message && err.message.includes("Network request failed")) {
-          alert(
-            "Gagal terhubung ke backend server saat mendaftar!\n\n" +
-            "Pastikan backend server aktif di port 3001."
-          );
-        } else {
-          alert(err.message || "Gagal melakukan pendaftaran.");
-        }
+        setPassword("");
+        setMessage({
+          type: "success",
+          text: response.message || "Pendaftaran berhasil! Silakan login.",
+        });
       }
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: isNetworkError(err)
+          ? `Tidak dapat terhubung ke server (${BASE_URL}). Pastikan backend aktif di port 3001.`
+          : err.message || "Terjadi kesalahan. Periksa kembali data Anda.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
-
-
-
-
-
 
   return (
     <View style={styles.container}>
@@ -154,10 +155,26 @@ export default function AuthPage() {
               />
             </View>
 
+            {/* Pesan error / sukses */}
+            {message && (
+              <View
+                style={[
+                  styles.messageBox,
+                  message.type === "success" ? styles.messageSuccess : styles.messageError,
+                ]}
+              >
+                <Text style={styles.messageText}>{message.text}</Text>
+              </View>
+            )}
+
             {/* Submit Button */}
-            <TouchableOpacity style={styles.button} onPress={handleAuth}>
+            <TouchableOpacity
+              style={[styles.button, loading && { opacity: 0.6 }]}
+              onPress={handleAuth}
+              disabled={loading}
+            >
               <Text style={styles.buttonText}>
-                {isLogin ? "Login" : "Sign up"}
+                {loading ? "Memproses..." : isLogin ? "Login" : "Sign up"}
               </Text>
             </TouchableOpacity>
 
@@ -165,22 +182,16 @@ export default function AuthPage() {
             {isLogin && <View style={styles.divider} />}
 
             {/* Toggle Mode Footer */}
-            <View style={styles.footerContainer}>
+            <View style={[styles.footerContainer, styles.footerRow]}>
               <Text style={styles.footerText}>
                 {isLogin ? "You don't have account? " : "Already have an account? "}
-                <Text
-                  style={styles.footerLink}
-                  onPress={() => {
-                    setIsLogin(!isLogin);
-                    // Clear fields when toggling
-                    setUsername("");
-                    setEmail("");
-                    setPassword("");
-                  }}
-                >
-                  {isLogin ? "Sign Up" : "Sign In"}
-                </Text>
               </Text>
+              <TouchableOpacity
+                onPress={toggleMode}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              >
+                <Text style={styles.footerLink}>{isLogin ? "Sign Up" : "Sign In"}</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>
@@ -190,6 +201,30 @@ export default function AuthPage() {
 }
 
 const styles = StyleSheet.create({
+  footerRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  messageBox: {
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    marginTop: 12,
+  },
+  messageError: {
+    backgroundColor: "#fde8e8",
+    borderWidth: 1,
+    borderColor: "#f05252",
+  },
+  messageSuccess: {
+    backgroundColor: "#e6f6ec",
+    borderWidth: 1,
+    borderColor: "#31c48d",
+  },
+  messageText: {
+    color: "#1f2937",
+    fontSize: 14,
+  },
   container: {
     flex: 1,
     backgroundColor: "#061d33", // Deep navy blue matching mockup
