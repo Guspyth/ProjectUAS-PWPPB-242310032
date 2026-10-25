@@ -24,8 +24,8 @@ const Publicmenu = () => {
                 <div className='flex items-center gap-25'>
                     <Logo />
                     <div className='hidden md:flex md:items-center md:gap-4'>
-                        <a href='' className='text-lg hover:underline'>Home</a>
-                        <a href='' className='text-lg hover:underline'>About</a>
+                        <a href='' className='text-lg text-white hover:text-[#F5C345] hover:underline transition-colors'>Home</a>
+                        <a href='' className='text-lg text-white hover:text-[#F5C345] hover:underline transition-colors'>About</a>
                     </div>                    
                 </div>
 

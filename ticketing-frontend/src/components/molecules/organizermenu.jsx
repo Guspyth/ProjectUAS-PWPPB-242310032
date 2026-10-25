@@ -27,7 +27,7 @@ const Organizermenu = () => {
                 </div>
                 
                 <div className='flex justify-end gap-4 select-none'>
-                    <h2 className='hidden md:block md:bg-[#F5C345] px-16 py-2 rounded-xl font-semibold text-shadow-lg'>
+                    <h2 className='hidden md:block md:bg-[#F5C345] text-[#031F40] px-16 py-2 rounded-xl font-semibold text-shadow-lg'>
                         Event Organizer
                     </h2>
 
@@ -37,17 +37,17 @@ const Organizermenu = () => {
                 </div>                          
            </div>           
 
-           <div className={`${isOpen ? 'block' : 'hidden'} md:block bg-[#031F40] px-8 pb-5 md:py-2`}>
+           <div className={`${isOpen ? 'block' : 'hidden'} md:block bg-[#031F40] text-white px-8 pb-5 md:py-2`}>
                 <hr className='h-px bg-slate-600 border-0 -mx-8 mb-4 md:hidden'/>
                 <div className='flex justify-start select-none mb-4 md:hidden'>
-                    <h2 className='bg-[#F5C345] text-sm rounded-sm font-semibold text-shadow-lg w-full text-center'>Event Organizer</h2>
+                    <h2 className='bg-[#F5C345] text-[#031F40] text-sm rounded-sm font-semibold text-shadow-lg w-full text-center'>Event Organizer</h2>
                 </div>
                 <div className='md:px-2'>                    
                     <ul className='flex flex-col text-sm md:text-lg md:flex-row gap-4 md:gap-24 md:items-center'>
-                        <li><Link href="/eventOrganizer_page/eo_dashboard" className='hover:underline'>Dashboard</Link></li>                        
-                        <li><Link href="/eventOrganizer_page/eo_events" className='hover:underline'>Events</Link></li>                        
-                        <li><Link href="/eventOrganizer_page/eo_orders" className='hover:underline'>Orders</Link></li>                                                                       
-                        <li><Link href="/eventOrganizer_page/eo_notifications" className='hover:underline'>Notifications</Link></li>
+                        <li><Link href="/eventOrganizer_page/eo_dashboard" className='text-white hover:text-[#F5C345] hover:underline transition-colors'>Dashboard</Link></li>                        
+                        <li><Link href="/eventOrganizer_page/eo_events" className='text-white hover:text-[#F5C345] hover:underline transition-colors'>Events</Link></li>                        
+                        <li><Link href="/eventOrganizer_page/eo_orders" className='text-white hover:text-[#F5C345] hover:underline transition-colors'>Orders</Link></li>                                                                       
+                        <li><Link href="/eventOrganizer_page/eo_notifications" className='text-white hover:text-[#F5C345] hover:underline transition-colors'>Notifications</Link></li>
                         <li>
                             <button
                                 onClick={handleLogout}
